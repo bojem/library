@@ -1,6 +1,7 @@
 {
     "name": "wuqingsong/library",
     "description": "通用工具库",
+    "license": "MIT",
     "authors": [
         {
             "name": "吴青松",
