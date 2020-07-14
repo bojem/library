@@ -9,10 +9,10 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace wqs;
+namespace q;
 
-use wqs\image\Exception as ImageException;
-use wqs\image\gif\Gif;
+use q\image\Exception as ImageException;
+use q\image\gif\Gif;
 
 class Image
 {

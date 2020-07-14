@@ -9,7 +9,7 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace wqs\image;
+namespace q\image;
 
 class Exception extends \RuntimeException
 {

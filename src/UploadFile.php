@@ -18,7 +18,7 @@ var_dump($upload->getErrorMsg());
 }
  *
  */
-namespace wqs;
+namespace q;
 
 class UploadFile
 {

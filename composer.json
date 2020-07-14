@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "wqs\\": "src/"
+            "q\\": "src/"
         }
     }
 }

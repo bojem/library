@@ -1,5 +1,5 @@
 <?php
-namespace wqs;
+namespace q;
 
 class StringHelper
 {

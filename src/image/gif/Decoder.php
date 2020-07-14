@@ -9,7 +9,7 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace wqs\image\gif;
+namespace q\image\gif;
 
 class Decoder
 {
