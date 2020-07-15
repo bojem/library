@@ -4,7 +4,6 @@ class FileHelper
 {
     /**
      * 下载微信头像
-     * Created by wqs
      * @param $avatarUrl
      * @param $newFilePath
      * @param string $fileName

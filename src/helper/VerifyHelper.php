@@ -6,7 +6,6 @@ class VerifyHelper
      * 判断是否为手机号
      * @param  String  $numbers [号码]
      * @return boolean          [bool]
-     * Created by rqh
      */
     public static function isMobile(String $numbers): bool
     {
