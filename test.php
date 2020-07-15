@@ -1,13 +1,19 @@
 <?php
-
 require_once 'vendor/autoload.php';
 
+set_exception_handler(function ($e){
+    print_r($e);exit;
+});
+
 try {
-//    $image = \q\Image::open('./background.jpg');
-//    $image->crop(300, 300)->save("./images.png");
+
+    $url = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIoDiacRrdhTCW5kxkGXPeOphj7atp6XUbFiczT1WStzHwjfsgbh8JUxAPoWlYDCGMIibw2MzTG5EK9g/132';
+    \q\FileHelper::downloadWechatHead($url, './userid/');
+
 } catch (Exception $e){
     print_r($e);
 }
+
 
 
 
