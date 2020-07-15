@@ -1,5 +1,5 @@
 <?php
-namespace q;
+namespace q\helper;
 class FileHelper
 {
     /**

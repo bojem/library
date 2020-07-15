@@ -1,5 +1,5 @@
 <?php
-namespace q;
+namespace q\helper;
 
 class StringHelper
 {
@@ -12,6 +12,38 @@ class StringHelper
     public static function generateCode(int $length = 4): int
     {
         return rand(pow(10, ($length - 1)), pow(10, $length) - 1);
+    }
+
+    /**
+     * 读取/dev/urandom获取随机数
+     * Created by wqs
+     * @param int $len
+     * @return false|string
+     */
+    public static function randomFromDev(int $len) {
+        $fp = @fopen('/dev/urandom','rb');
+        $result = '';
+        if ($fp !== FALSE) {
+            $result .= @fread($fp, $len);
+            @fclose($fp);
+        }else{
+            return self::randomFromDev($len);
+        }
+        $result = base64_encode($result);
+        $result = strtr($result, '+/', '-_');
+        return substr($result, 0, $len);
+    }
+
+    /**
+     * 截取字符串
+     * @param  string   $string
+     * @param  int      $start
+     * @param  int|null $length
+     * @return string
+     */
+    public static function substr(string $string, int $start, int $length = null): string
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
     }
 
     /**
