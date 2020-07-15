@@ -7,9 +7,10 @@ class FileHelper
      * Created by wqs
      * @param $avatarUrl
      * @param $newFilePath
+     * @param string $fileName
      * @return bool|string
      */
-    public static function downloadWechatHead($avatarUrl, $newFilePath)
+    public static function downloadWechatHead($avatarUrl, $newFilePath, $fileName = '')
     {
         $header = array(
             'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0',
@@ -30,12 +31,26 @@ class FileHelper
         $img_content=$imgBase64Code;//图片内容
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $img_content, $result)) {
             $type = $result[2];//得到图片类型png?jpg?gif?
-            $newFile = $newFilePath . date("YmdHis") . '.' . $type;
+            self::makeDir($newFilePath);
+            $fileName = !empty($fileName) ? $fileName : StringHelper::generateCode(16);
+            $newFile = $newFilePath . $fileName . '.' . $type;
             if (file_put_contents($newFile, base64_decode(str_replace($result[1], '', $img_content)))) {
                 return $newFile;
             }
         }
         return false;
+    }
+
+    /**
+     * 创建目录
+     * Created by wqs
+     * @param $path
+     */
+    public static function makeDir($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path,0777, true);
+        }
     }
 
 }

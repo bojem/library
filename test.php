@@ -8,7 +8,7 @@ set_exception_handler(function ($e){
 try {
 
     $url = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIoDiacRrdhTCW5kxkGXPeOphj7atp6XUbFiczT1WStzHwjfsgbh8JUxAPoWlYDCGMIibw2MzTG5EK9g/132';
-    \q\FileHelper::downloadWechatHead($url, './userid/');
+    \q\FileHelper::downloadWechatHead($url, './avatar/' , 'user_id');
 
 } catch (Exception $e){
     print_r($e);
