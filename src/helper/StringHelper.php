@@ -34,6 +34,39 @@ class StringHelper
     }
 
     /**
+     * 生成一个订单sn
+     * @param int $length
+     * @return string
+     */
+    public static function createOrdersSn(int $length = 6): string
+    {
+        $prev = 'CP';
+        $sTime = date('YmdHis');
+        $rand = self::generateCode($length);
+        $result = $prev . $sTime . $rand;
+        return $result;
+    }
+
+    /**
+     * 生成UUID
+     *
+     * @return string
+     * @author wqs
+     */
+    public static function uuid(): string
+    {
+        if (function_exists('uuid_create')) {
+            return uuid_create();
+        } else {
+            $data = openssl_random_pseudo_bytes(16);
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+            $uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+            return $uuid;
+        }
+    }
+
+    /**
      * 截取字符串
      * @param  string   $string
      * @param  int      $start
@@ -76,6 +109,24 @@ class StringHelper
         $slice = join("",array_slice($match[0], $start, $length));
         if($suffix) return $slice."…";
         return $slice;
+    }
+
+    /**
+     * 获取用户真实ip
+     * @return string
+     */
+    public static function getUserIp()
+    {
+        if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+            $ip = $_SERVER['HTTP_X_REAL_IP'];
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } else {
+            $ip = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '127.0.0.1';
+        }
+        return $ip;
     }
 
     /**

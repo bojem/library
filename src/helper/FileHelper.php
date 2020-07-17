@@ -43,15 +43,16 @@ class FileHelper
     /**
      * 创建目录
      * Created by wqs
-     * @param $path
+     * @param $dir
+     * @return string
      */
-    public static function makeDir($path)
+    public static function makeDir($dir): string
     {
-        if (!is_dir($path)) {
-            mkdir($path,0777, true);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
         }
+        return $dir;
     }
-
 }
 
 

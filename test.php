@@ -6,12 +6,15 @@ set_exception_handler(function ($e){
 });
 
 try {
-    $s = \q\helper\DateHelper::getMonthWeekArr();
-    print_r($s);
+    $url = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIoDiacRrdhTCW5kxkGXPeOphj7atp6XUbFiczT1WStzHwjfsgbh8JUxAPoWlYDCGMIibw2MzTG5EK9g/132';
+    $localUrl = \q\helper\FileHelper::downloadWechatHead($url, './', 'avatar');
+    //头像圆角处理
+    \q\Image::open($localUrl)->radius(50)->save($localUrl);
+    \q\Image::open('./back.jpg')->water($localUrl, \q\Image::WATER_CENTER)->save("./2.png");
 
-//    $url = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIoDiacRrdhTCW5kxkGXPeOphj7atp6XUbFiczT1WStzHwjfsgbh8JUxAPoWlYDCGMIibw2MzTG5EK9g/132';
-//    \q\FileHelper::downloadWechatHead($url, './avatar/' , 'user_id');
-//    \q\Image::open('./avatar/20200525134226_387.jpg')->radius(50)->save('./avatar/user_id2.jpeg');
+
+
+
 } catch (Exception $e){
     print_r($e);
 }
