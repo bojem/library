@@ -15,7 +15,6 @@ class StringHelper
 
     /**
      * 读取/dev/urandom获取随机数
-     * Created by wqs
      * @param int $len
      * @return false|string
      */
@@ -49,9 +48,7 @@ class StringHelper
 
     /**
      * 生成UUID
-     *
      * @return string
-     * @author wqs
      */
     public static function uuid(): string
     {
@@ -109,6 +106,55 @@ class StringHelper
         $slice = join("",array_slice($match[0], $start, $length));
         if($suffix) return $slice."…";
         return $slice;
+    }
+
+    /**
+     * 加密
+     * @param $txt
+     * @param string $key
+     * @return string
+     */
+    public static function encrypt($txt,$key='str'){
+        $txt = $txt.$key;
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
+        $nh = rand(0,64);
+        $ch = $chars[$nh];
+        $mdKey = md5($key.$ch);
+        $mdKey = substr($mdKey,$nh%8, $nh%8+7);
+        $txt = base64_encode($txt);
+        $tmp = '';
+        $i=0;$j=0;$k = 0;
+        for ($i=0; $i<strlen($txt); $i++) {
+            $k = $k == strlen($mdKey) ? 0 : $k;
+            $j = ($nh+strpos($chars,$txt[$i])+ord($mdKey[$k++]))%64;
+            $tmp .= $chars[$j];
+        }
+        return urlencode(base64_encode($ch.$tmp));
+    }
+
+    /**
+     * 解密
+     * @param $txt
+     * @param string $key
+     * @return string
+     */
+    public static function decrypt($txt,$key='str'){
+        $txt = base64_decode(urldecode($txt));
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
+        $ch = $txt[0];
+        $nh = strpos($chars,$ch);
+        $mdKey = md5($key.$ch);
+        $mdKey = substr($mdKey,$nh%8, $nh%8+7);
+        $txt = substr($txt,1);
+        $tmp = '';
+        $i=0;$j=0; $k = 0;
+        for ($i=0; $i<strlen($txt); $i++) {
+            $k = $k == strlen($mdKey) ? 0 : $k;
+            $j = strpos($chars,$txt[$i])-$nh - ord($mdKey[$k++]);
+            while ($j<0) $j+=64;
+            $tmp .= $chars[$j];
+        }
+        return trim(base64_decode($tmp),$key);
     }
 
     /**
