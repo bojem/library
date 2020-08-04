@@ -69,7 +69,6 @@ class DateHelper
 
     /**
      * 返回今天-本周-本月-本年的起始时间戳
-     * Created by wqs
      * @return mixed
      */
     public static function getDateUnixTime(){

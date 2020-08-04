@@ -42,7 +42,6 @@ class FileHelper
 
     /**
      * 创建目录
-     * Created by wqs
      * @param $dir
      * @return string
      */

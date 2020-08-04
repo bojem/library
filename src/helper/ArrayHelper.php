@@ -4,7 +4,6 @@ class ArrayHelper
 {
     /**
      * 递归调用 子菜单压进数组
-     * Created by wqs
      * @param $menu
      * @param int $pid
      * @param string $p
