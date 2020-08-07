@@ -36,7 +36,7 @@ class VerifyHelper
     /**
      * 校验身份证
      */
-    public static function checkIdCard($idc)
+    public static function isIdCard($idc)
     {
         if(empty($idc)){
             return false;
