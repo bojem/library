@@ -14,7 +14,7 @@ class StringHelper
     }
 
     /**
-     * 读取/dev/urandom获取随机数
+     * 读取/dev/urandom生成随机数
      * @param int $len
      * @return false|string
      */
@@ -30,6 +30,24 @@ class StringHelper
         $result = base64_encode($result);
         $result = strtr($result, '+/', '-_');
         return substr($result, 0, $len);
+    }
+
+    /**
+     * 生成随机数
+     * @param  integer  $length  长度
+     * @param  integer $numeric 是否包含字母
+     * @return string           随机数
+     */
+    public static function random($length, $numeric = 0) {
+        PHP_VERSION < '4.2.0' ? mt_srand((double) microtime() * 1000000) : mt_srand();
+        $seed = base_convert(md5(print_r($_SERVER, 1) . microtime()), 16, $numeric ? 10 : 35);
+        $seed = $numeric ? (str_replace('0', '', $seed) . '012340567890') : ($seed . 'zZ' . strtoupper($seed));
+        $hash = '';
+        $max = strlen($seed) - 1;
+        for ($i = 0; $i < $length; $i ++) {
+            $hash .= $seed[mt_rand(0, $max)];
+        }
+        return $hash;
     }
 
     /**
