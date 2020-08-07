@@ -14,22 +14,22 @@ class StringHelper
     }
 
     /**
-     * 读取/dev/urandom生成随机数
-     * @param int $len
-     * @return false|string
+     * 生成随机数
+     * @param int $len 字符串长度
+     * @param bool $hasSpecial 是否有特殊字符
+     * @return string
      */
-    public static function randomFromDev(int $len) {
-        $fp = @fopen('/dev/urandom','rb');
-        $result = '';
-        if ($fp !== FALSE) {
-            $result .= @fread($fp, $len);
-            @fclose($fp);
-        }else{
-            return self::randomFromDev($len);
+    public static function randStr(int $len = 6, bool $hasSpecial = false): string {
+        $chars = 'abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+        if ($hasSpecial) {
+            $chars .= '!@#$%^&*()_+-=`~[]{}|<>?:';
         }
-        $result = base64_encode($result);
-        $result = strtr($result, '+/', '-_');
-        return substr($result, 0, $len);
+        $result = '';
+        $max    = strlen($chars) - 1;
+        for ($i = 0; $i < $len; $i++) {
+            $result .= $chars[rand(0, $max)];
+        }
+        return $result;
     }
 
     /**
@@ -48,6 +48,25 @@ class StringHelper
             $hash .= $seed[mt_rand(0, $max)];
         }
         return $hash;
+    }
+
+    /**
+     * 读取/dev/urandom生成随机数
+     * @param int $len
+     * @return false|string
+     */
+    public static function randomFromDev(int $len) {
+        $fp = @fopen('/dev/urandom','rb');
+        $result = '';
+        if ($fp !== FALSE) {
+            $result .= @fread($fp, $len);
+            @fclose($fp);
+        }else{
+            return self::randomFromDev($len);
+        }
+        $result = base64_encode($result);
+        $result = strtr($result, '+/', '-_');
+        return substr($result, 0, $len);
     }
 
     /**
@@ -127,12 +146,38 @@ class StringHelper
     }
 
     /**
+     * 隐藏真实名称(如姓名、账号、公司等)
+     * @param string $str
+     * @return string
+     */
+    public static function hideTrueName(string $str): string
+    {
+        $res = '**';
+        if ($str != '') {
+            $len = mb_strlen($str, 'UTF-8');
+            if ($len <= 3) {
+                $res = mb_substr($str, 0, 1, 'UTF-8') . $res;
+            } elseif ($len < 5) {
+                $res = mb_substr($str, 0, 2, 'UTF-8') . $res;
+            } elseif ($len < 10) {
+                $res = mb_substr($str, 0, 2, 'UTF-8') . '***' . mb_substr($str, ($len - 2), $len, 'UTF-8');
+            } elseif ($len < 16) {
+                $res = mb_substr($str, 0, 3, 'UTF-8') . '***' . mb_substr($str, ($len - 3), $len, 'UTF-8');
+            } else {
+                $res = mb_substr($str, 0, 4, 'UTF-8') . '***' . mb_substr($str, ($len - 4), $len, 'UTF-8');
+            }
+        }
+        return $res;
+    }
+
+    /**
      * 加密
      * @param $txt
      * @param string $key
      * @return string
      */
-    public static function encrypt($txt,$key='str'){
+    public static function encrypt($txt,$key='str')
+    {
         $txt = $txt.$key;
         $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
         $nh = rand(0,64);
@@ -156,7 +201,8 @@ class StringHelper
      * @param string $key
      * @return string
      */
-    public static function decrypt($txt,$key='str'){
+    public static function decrypt($txt,$key='str')
+    {
         $txt = base64_decode(urldecode($txt));
         $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
         $ch = $txt[0];
