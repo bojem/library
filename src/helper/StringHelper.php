@@ -4,6 +4,15 @@ namespace q\helper;
 class StringHelper
 {
     /**
+     * 生成随机字符串
+     * @return string
+     */
+    public static function uuidRandStr()
+    {
+        return sha1(self::uuid() . microtime(true) . mt_rand(1, 99999999));
+    }
+
+    /**
      * 生成随机数
      * @param int|int $length
      * @return int
