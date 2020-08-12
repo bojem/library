@@ -81,11 +81,11 @@ class StringHelper
     /**
      * 生成一个订单sn
      * @param int $length
+     * @param string $prev
      * @return string
      */
-    public static function createOrdersSn(int $length = 6): string
+    public static function createOrdersSn(int $length = 6, $prev = 'CP'): string
     {
-        $prev = 'CP';
         $sTime = date('YmdHis');
         $rand = self::generateCode($length);
         $result = $prev . $sTime . $rand;

@@ -376,13 +376,14 @@ class Image
 
     /**
      * 添加水印
-     *
-     * @param string    $source 水印图片路径
-     * @param int|array $locate 水印位置
-     * @param int       $alpha  透明度
+     * @param string $source 水印图片路径
+     * @param int $locate 水印位置
+     * @param int $alpha  透明度
+     * @param $xs
+     * @param $ys
      * @return $this
      */
-    public function water($source, $locate = self::WATER_SOUTHEAST, $alpha = 100)
+    public function water($source, $locate = self::WATER_SOUTHEAST, $alpha = 100, $xs=0, $ys=0)
     {
         if (!is_file($source)) {
             throw new ImageException('水印图像不存在');
@@ -451,6 +452,10 @@ class Image
                     throw new ImageException('不支持的水印位置类型');
                 }
         }
+
+        $x += $xs;
+        $y += $ys;
+
         do {
             //添加水印
             $src = imagecreatetruecolor($info[0], $info[1]);
