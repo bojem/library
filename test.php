@@ -6,8 +6,6 @@ set_exception_handler(function ($e){
 });
 
 try {
-
-
 } catch (Exception $e){
     print_r($e);
 }
