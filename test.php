@@ -6,8 +6,18 @@ set_exception_handler(function ($e){
 });
 
 try {
+    $s = \q\rpc\Rpc::init()->send([
+        'url' => 'http://www.money.com/api/default/test-rpc',
+        'method' => 'test',
+        'params' => [
+            'page' => 1
+        ]
+    ]);
 
-} catch (Exception $e){
+    print_r($s);exit;
+
+
+} catch (\Exception $e){
     print_r($e);
 }
 

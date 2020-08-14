@@ -57,11 +57,9 @@ class Rpc{
             $client->SetOpt(YAR_OPT_HEADER, ['token:' . $token]);
             $client->SetOpt(YAR_OPT_PACKAGER, 'json');
             $result = $client->{$params['method']}($params['params'] ?? []);
-
             $result = json_decode($result, true);
-            print_r($result);exit;
-
-        } catch (\Yar_Server_Exception | \Yar_Client_Exception $e) {
+            return $result;
+        } catch (\Throwable $e) {
             throw new RpcException($e->getMessage());
         }
     }
@@ -77,7 +75,7 @@ class Rpc{
                 throw new RpcException('method参数缺失！');
             }
             if (!isset($val['key']) || empty($val['key'])) {
-                throw new RpcException('method参数缺失！');
+                throw new RpcException('key参数缺失！');
             }
             try {
                 \Yar_Concurrent_Client::Reset();
