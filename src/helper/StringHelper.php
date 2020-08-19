@@ -80,15 +80,21 @@ class StringHelper
 
     /**
      * 生成一个订单sn
+     * Created by wqs
      * @param int $length
      * @param string $prev
+     * @param bool $timeStatus
      * @return string
      */
-    public static function createOrdersSn(int $length = 6, $prev = 'CP'): string
+    public static function createOrdersSn(int $length = 6, $prev = 'CP', $timeStatus = true): string
     {
         $sTime = date('YmdHis');
         $rand = self::generateCode($length);
-        $result = $prev . $sTime . $rand;
+        if ($timeStatus) {
+            $result = $prev . $sTime . $rand;
+        } else {
+            $result = $prev . $rand;
+        }
         return $result;
     }
 

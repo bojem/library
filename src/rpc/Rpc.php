@@ -56,7 +56,10 @@ class Rpc{
             $client->setOpt(YAR_OPT_PERSISTENT, 1);
             $client->SetOpt(YAR_OPT_HEADER, ['token:' . $token]);
             $client->SetOpt(YAR_OPT_PACKAGER, 'json');
+
             $result = $client->{$params['method']}($params['params'] ?? []);
+            print_r($result);exit;
+
             $result = json_decode($result, true);
             return $result;
         } catch (\Throwable $e) {
