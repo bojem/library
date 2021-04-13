@@ -8,8 +8,7 @@ set_exception_handler(function ($e){
 try {
     $token = (new \q\JwtToken("1234"))
         ->withClaim("name", "1234")
-        ->withClaim("age", 30)
-        ->withClaim("exp", 1599663843)
+        ->withClaim("exp", 15996638432)
         ->generateToken();
 
     $s = (new \q\JwtToken("1234"))->parseToken($token);
