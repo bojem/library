@@ -6,11 +6,13 @@ class Poster
     private $poster;
     private $width;
     private $height;
+    private $font_path;
 
     public function __construct($width, $height){
         $this->width = $width;
         $this->height = $height;
         $this->poster = imagecreatetruecolor($width, $height);
+        $this->font_path = dirname(__FILE__) . "/image/font/Microsoft.ttf";
     }
 
     /**
@@ -89,8 +91,8 @@ class Poster
     public function imageText(string $text, int $size, array $color, int $x, int $y, $max_width = 0, $max_line = 1, $blod = false){
         $text = $this->handleStr($text, $size, $max_width, $max_line);
         $color = $this->createColor(...$color);
-        imagettftext($this->poster, $size, 0, $x, $y, $color, 'image/font/Microsoft.ttf', $text);
-        if ($blod) imagettftext($this->poster, $size, 0, ($x + 1), ($y + 1), $color, 'image/font/Microsoft.ttf', $text);
+        imagettftext($this->poster, $size, 0, $x, $y, $color, $this->font_path, $text);
+        if ($blod) imagettftext($this->poster, $size, 0, ($x + 1), ($y + 1), $color, $this->font_path, $text);
     }
 
     /**
@@ -112,7 +114,7 @@ class Poster
         }
         foreach ($letter as $l) {
             $temp_str = $content . " " . $l;
-            $fontBox = imagettfbbox($size, 0, 'image/font/Microsoft.ttf', $temp_str);
+            $fontBox = imagettfbbox($size, 0, $this->font_path, $temp_str);
             if (($fontBox[2] > $max_width) && ($content !== "")) {
                 $content .= "\n";
                 $line += 1;
