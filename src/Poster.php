@@ -89,8 +89,8 @@ class Poster
     public function imageText(string $text, int $size, array $color, int $x, int $y, $max_width = 0, $max_line = 1, $blod = false){
         $text = $this->handleStr($text, $size, $max_width, $max_line);
         $color = $this->createColor(...$color);
-        imagettftext($this->poster, $size, 0, $x, $y, $color, PUBLIC_PATH . 'static/font/Microsoft.ttf', $text);
-        if ($blod) imagettftext($this->poster, $size, 0, ($x + 1), ($y + 1), $color, PUBLIC_PATH . 'static/font/Microsoft.ttf', $text);
+        imagettftext($this->poster, $size, 0, $x, $y, $color, 'image/font/Microsoft.ttf', $text);
+        if ($blod) imagettftext($this->poster, $size, 0, ($x + 1), ($y + 1), $color, 'image/font/Microsoft.ttf', $text);
     }
 
     /**
@@ -112,7 +112,7 @@ class Poster
         }
         foreach ($letter as $l) {
             $temp_str = $content . " " . $l;
-            $fontBox = imagettfbbox($size, 0, PUBLIC_PATH . 'static/font/Microsoft.ttf', $temp_str);
+            $fontBox = imagettfbbox($size, 0, 'image/font/Microsoft.ttf', $temp_str);
             if (($fontBox[2] > $max_width) && ($content !== "")) {
                 $content .= "\n";
                 $line += 1;
@@ -204,19 +204,6 @@ class Poster
         }
         $image_info['image'] = $image;
         return $image_info;
-    }
-
-    /**
-     * 创建海报内容
-     * @param unknown $data
-     * @return \extend\Poster|multitype:
-     */
-    public function create($data){
-        foreach ($data as $item) {
-            $action = $item['action'];
-            $this->$action(...$item['data']);
-        }
-        return $this;
     }
 
     /**
