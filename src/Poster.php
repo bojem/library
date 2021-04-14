@@ -262,7 +262,7 @@ class Poster
         if ($check_res['code'] < 0) return $check_res;
         try {
             $filename = $path .'/'. $name . '.jpg';
-            header("Content-type: image/jpeg"); // 定义输出类型
+            //header("Content-type: image/jpeg"); // 定义输出类型
             imagejpeg($this->poster, $filename); // 输出图片
             imagedestroy($this->poster); // 销毁图片资源
 
