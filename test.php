@@ -6,24 +6,13 @@ set_exception_handler(function ($e){
 });
 
 try {
-    $token = (new \q\JwtToken("1234"))
-        ->withClaim("name", "1234")
-        ->withClaim("exp", 15996638432)
-        ->generateToken();
-
-    $s = (new \q\JwtToken("1234"))->parseToken($token);
+    $a = new \q\Captcha();
+    $code = $a->code();
+    $s = $a->create($code);
 
 
-//    $s = \q\rpc\Rpc::init()->send([
-//        'url' => 'http://www.money.com/api/default/test-rpc',
-//        'method' => 'test',
-//        'params' => [
-//            'page' => 1
-//        ]
-//    ]);
-
-    var_dump($s);exit;
-
+    echo "<img src='".$s['image']."'>";
+//    print_r($s);
 
 } catch (\Exception $e){
     print_r($e);
