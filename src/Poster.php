@@ -78,6 +78,19 @@ class Poster
     }
 
     /**
+     * 将图片转为圆形后写入海报1
+     * @param unknown $image_path
+     * @param unknown $x
+     * @param unknown $y
+     * @param unknown $width
+     * @param unknown $height
+     */
+    public function imageCircularCopy1($image_path, $x, $y, $width, $height){
+        $image = $this->circular($image_path);
+        imagecopyresampled($this->poster, $image['image'], $x, $y, 0, 0, $width, $height, $image['width'], $image['width']);
+    }
+
+    /**
      * 将文字写入海报
      * @param string $text
      * @param int $size 文字大小
