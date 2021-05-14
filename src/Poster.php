@@ -284,4 +284,24 @@ class Poster
             return ['status' => 0, 'path' => $e->getMessage()];
         }
     }
+
+    /**
+     * 输出png格式的海报
+     * @param $path 图片生成路径
+     * @param $name 图片名称
+     * @return array|multitype
+     */
+    public function png($path, $name){
+        $check_res = $this->checkPath($path);
+        if ($check_res['code'] < 0) return $check_res;
+        try {
+            $filename = $path .'/'. $name . '.png';
+            imagepng($this->poster, $filename); // 输出图片
+            imagedestroy($this->poster); // 销毁图片资源
+
+            return ['status' => 1, 'path' => $filename];
+        } catch (\Exception $e) {
+            return ['status' => 0, 'path' => $e->getMessage()];
+        }
+    }
 }
