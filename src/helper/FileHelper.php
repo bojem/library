@@ -3,6 +3,84 @@ namespace q\helper;
 class FileHelper
 {
     /**
+     * 文件尺寸大小换算
+     * @param unknown $size
+     * @return string
+     */
+    public function size_conversion($size_num)
+    {
+
+        switch ($size_num) {
+            case $size_num >= 1073741824:
+                $size_str = round($size_num / 1073741824 * 100) / 100 . ' GB';
+                break;
+            case $size_num >= 1048576:
+                $size_str = round($size_num / 1048576 * 100) / 100 . ' MB';
+                break;
+            case $size_num >= 1024:
+                $size_str = round($size_num / 1024 * 100) / 100 . ' KB';
+                break;
+            default:
+                $size_str = $size_num . ' Bytes';
+                break;
+        }
+        return $size_str;
+    }
+
+    /**
+     * 文件强制下载
+     * @param unknown $dir
+     */
+    public function dir_readfile($dir)
+    {
+
+        if (file_exists($dir)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=' . basename($dir));
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($dir));
+            ob_clean();
+            flush();
+            readfile($dir);
+        }
+    }
+
+    /**
+     * 删除指定目录下的文件和文件夹
+     * @param unknown $dirpath
+     * @return boolean
+     */
+    public function del_dir($dirpath)
+    {
+        $dh = opendir($dirpath);
+        while (($file = readdir($dh)) !== false) {
+            if ($file != "." && $file != "..") {
+                $fullpath = $dirpath . "/" . $file;
+                if (!is_dir($fullpath)) {
+                    unlink($fullpath);
+                } else {
+                    $this->del_dir($fullpath);
+                    rmdir($fullpath);
+                }
+            }
+        }
+        closedir($dh);
+        $isEmpty = true;
+        $dh = opendir($dirpath);
+        while (($file = readdir($dh)) !== false) {
+            if ($file != "." && $file != "..") {
+                $isEmpty = false;
+                break;
+            }
+        }
+        return $isEmpty;
+    }
+
+    /**
      * 下载微信头像
      * @param $avatarUrl
      * @param $newFilePath
